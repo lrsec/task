@@ -54,8 +54,10 @@ func (task *ScheduleTask) Start() error {
 		}
 
 		d := start.Unix() - now.Unix()
-		if d < 0 {
-			d = 0
+		for d < 0 {
+			start = start.Add(24 * time.Hour)
+
+			d = start.Unix() - now.Unix()
 		}
 
 		startTime = time.Duration(d) * time.Second
